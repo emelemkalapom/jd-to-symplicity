@@ -1,0 +1,2 @@
+const P=require('../parser.js');const fs=require('fs');
+for(const f of process.argv.slice(2)){const r=P.parse(fs.readFileSync(__dirname+'/'+f+'.txt','utf8'),{today:'2026-11-16'});console.log('=====',f);for(const k of ['position_types','employer_name','job_title','location','expiration_date','resume_submission_methods','experience_required','skills','degree_levels','work_authorization','languages','optional_documents','required_documents','document_notes','how_to_apply','flags'])console.log(k,':',JSON.stringify(r[k]));console.log(r.description_html);}

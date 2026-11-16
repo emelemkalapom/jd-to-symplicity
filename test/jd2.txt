@@ -1,0 +1,22 @@
+Junior Data Analyst
+Budapest, Hungary | Full-time | Hybrid
+
+Northwind Analytics is looking for a Junior Data Analyst to join our growing Insights team in Budapest.
+What you'll do
+Build dashboards in Power BI and Tableau for our retail clients
+Write SQL queries to extract and clean data
+Present findings to stakeholders in clear, non-technical language
+Work with the data engineering team on data quality
+
+What we're looking for
+Bachelor's or Master's degree in economics, statistics, computer science or similar
+1-2 years of experience in a data role (internships count)
+Proficiency in SQL and Python
+Fluent English; Hungarian is not required
+You must have the right to work in the EU; we cannot sponsor visas.
+
+Benefits
+Competitive salary (HUF 650,000 - 800,000 gross per month), cafeteria, 25 days holiday, learning budget
+
+Apply via our careers page: https://careers.northwind-analytics.com/jobs/junior-data-analyst-bp
+Applications close on January 10th.
