@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JD to Symplicity | CEU Career Services</title>
+<meta name="robots" content="noindex">
+<style>
+  :root {
+    --ink: #1b1f24;
+    --muted: #5b6470;
+    --line: #d9dde3;
+    --bg: #f5f6f8;
+    --card: #ffffff;
+    --accent: #1f3a5f;
+    --accent-soft: #e8eef6;
+    --warn: #8a5a00;
+    --warn-bg: #fff6e0;
+    --ok: #1e6b3a;
+    --radius: 8px;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--ink); background: var(--bg); }
+  header { background: var(--accent); color: #fff; padding: 18px 24px; }
+  header h1 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: .2px; }
+  header p { margin: 4px 0 0; opacity: .85; font-size: 14px; }
+  main { display: grid; grid-template-columns: minmax(320px, 1fr) minmax(420px, 1.25fr); gap: 20px; padding: 20px 24px 40px; max-width: 1500px; margin: 0 auto; }
+  @media (max-width: 980px) { main { grid-template-columns: 1fr; } .paste { position: static !important; } }
+  .paste { position: sticky; top: 16px; align-self: start; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px; }
+  #jd { width: 100%; min-height: 62vh; resize: vertical; font: 14px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; padding: 12px; border: 1px solid var(--line); border-radius: 6px; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .actions { margin-top: 10px; }
+  button { font: inherit; border: 1px solid var(--line); background: #fff; color: var(--ink); border-radius: 6px; padding: 6px 12px; cursor: pointer; }
+  button:hover { border-color: #aab2bd; }
+  button.primary { background: var(--accent); color: #fff; border-color: var(--accent); padding: 8px 18px; font-weight: 600; }
+  button.primary:hover { filter: brightness(1.1); }
+  button.copy { font-size: 13px; padding: 4px 10px; white-space: nowrap; }
+  button.copy.done { color: var(--ok); border-color: var(--ok); }
+  .hint { color: var(--muted); font-size: 13px; }
+  .privacy { margin-top: 10px; font-size: 13px; color: var(--muted); }
+  #empty { color: var(--muted); text-align: center; padding: 60px 20px; }
+  section.group { margin-bottom: 16px; }
+  section.group > h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .6px; color: var(--accent); margin: 0 0 10px; padding-bottom: 6px; border-bottom: 2px solid var(--accent-soft); }
+  .field { margin-bottom: 14px; }
+  .field > .head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+  .field label.name { font-weight: 600; font-size: 14px; }
+  .req { color: #b42318; font-weight: 400; }
+  .field input[type=text], .field input[type=date], .field input[type=email], .field textarea { width: 100%; font: inherit; padding: 7px 9px; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
+  .field textarea { min-height: 90px; resize: vertical; }
+  .with-copy { display: flex; gap: 8px; align-items: flex-start; }
+  .with-copy > :first-child { flex: 1; }
+  .checks { display: flex; flex-wrap: wrap; gap: 6px 14px; padding: 8px 10px; background: #fafbfc; border: 1px solid var(--line); border-radius: 6px; }
+  .checks label { display: inline-flex; gap: 6px; align-items: center; font-size: 14px; cursor: pointer; }
+  .checks label.on { font-weight: 600; color: var(--accent); }
+  .counter { font-size: 12px; color: var(--muted); }
+  .counter.over { color: #b42318; font-weight: 600; }
+  .desc { border: 1px solid var(--line); border-radius: 6px; padding: 10px 14px; min-height: 160px; max-height: 520px; overflow: auto; background: #fff; }
+  .desc h3 { font-size: 15px; margin: 14px 0 4px; }
+  .desc h3:first-child { margin-top: 2px; }
+  .desc p { margin: 6px 0; }
+  .desc ul { margin: 4px 0 8px; padding-left: 22px; }
+  .desc:focus { outline: 2px solid var(--accent-soft); }
+  .flags { background: var(--warn-bg); border: 1px solid #f0d58a; border-radius: var(--radius); padding: 10px 14px 10px 16px; margin-bottom: 16px; }
+  .flags h2 { margin: 0 0 6px; font-size: 14px; color: var(--warn); }
+  .flags ul { margin: 0; padding-left: 18px; }
+  .flags li { margin: 2px 0; font-size: 14px; }
+  .fixed { font-size: 13px; color: var(--muted); background: var(--accent-soft); border-radius: 6px; padding: 8px 12px; margin-bottom: 16px; }
+  .fixed b { color: var(--ink); font-weight: 600; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .chip { font-size: 13px; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--line); background: #fff; cursor: pointer; }
+  .chip.done { border-color: var(--ok); color: var(--ok); }
+  .toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); background: var(--ink); color: #fff; padding: 8px 14px; border-radius: 6px; font-size: 14px; opacity: 0; transition: opacity .2s; pointer-events: none; }
+  .toast.show { opacity: .92; }
+  footer { text-align: center; color: var(--muted); font-size: 12px; padding: 0 0 24px; }
+  kbd { font: 12px ui-monospace, monospace; border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 0 4px; background: #fff; }
+</style>
+</head>
+<body>
+<header>
+  <h1>JD to Symplicity</h1>
+  <p>Paste a raw job description and get suggested values for each field of the Symplicity job form, in form order.</p>
+</header>
+
+<main>
+  <div class="paste card">
+    <div class="field" style="margin:0">
+      <div class="head"><label class="name" for="jd">Job description</label><span class="hint">Paste the full ad, headings and all</span></div>
+      <textarea id="jd" spellcheck="false" placeholder="Paste the job description here..."></textarea>
+    </div>
+    <div class="row actions">
+      <button class="primary" id="go">Convert</button>
+      <button id="clear">Clear</button>
+      <button id="example">Try an example</button>
+      <span class="hint"><kbd>Ctrl</kbd>+<kbd>Enter</kbd> converts</span>
+    </div>
+    <p class="privacy">Runs entirely in your browser. Nothing you paste is sent or stored anywhere. Pattern matching, not AI: treat every value as a suggestion and check it.</p>
+  </div>
+
+  <div id="out">
+    <div id="empty" class="card">Results appear here, laid out in the same order as the Symplicity job form.</div>
+  </div>
+</main>
+<footer>CEU Career Services. Field lists match the Symplicity "New Job" form as of November 2026.</footer>
+<div class="toast" id="toast"></div>
+
+<script src="parser.js"></script>
+<script>
+(function () {
+  "use strict";
+  const $ = (s, el = document) => el.querySelector(s);
+  const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  const FORM = JDParser.FORM;
+  let uid = 0;
+  const nid = () => "f" + (++uid);
+
+  const EXAMPLE = `Research Intern – Democracy and Rule of Law Programme (m/f/d) – Vienna Office
+
+About us
+The International Institute for Democratic Governance (IIDG) is an independent think tank based in Vienna, Austria, working on rule of law in Central and Eastern Europe.
+
+About the role
+We are looking for a motivated Research Intern to support our programme for six months, starting in February 2027.
+
+Your tasks
+• Conduct desk research and literature reviews on judicial independence
+• Support data collection and data analysis for our annual index
+• Draft short policy briefs and blog posts
+
+Requirements
+• Currently enrolled in or recently graduated from a Master's programme in political science, law or a related field
+• Excellent written and spoken English (C1); German is an advantage
+• Experience with Excel; knowledge of Stata or R is a plus
+
+What we offer
+• Monthly stipend of EUR 1,100 gross (40 hours per week)
+• Hybrid working arrangement
+
+How to apply
+Please send your CV, a cover letter (max. 1 page) and a writing sample in a single PDF to internships@example.org with the subject line "Research Intern 2027".
+Deadline: 15 December 2026.`;
+
+  // ---------- clipboard ----------
+  function toast(msg) {
+    const t = $("#toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(toast._t);
+    toast._t = setTimeout(() => t.classList.remove("show"), 1400);
+  }
+  async function copyText(text, btn) {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      const ta = document.createElement("textarea");
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      document.execCommand("copy"); ta.remove();
+    }
+    flash(btn);
+  }
+  async function copyRich(html, plain, btn) {
+    try {
+      if (window.ClipboardItem) {
+        await navigator.clipboard.write([new ClipboardItem({
+          "text/html": new Blob([html], { type: "text/html" }),
+          "text/plain": new Blob([plain], { type: "text/plain" }),
+        })]);
+      } else throw new Error("no ClipboardItem");
+    } catch {
+      const div = document.createElement("div");
+      div.innerHTML = html; div.style.position = "fixed"; div.style.left = "-9999px";
+      document.body.appendChild(div);
+      const r = document.createRange(); r.selectNodeContents(div);
+      const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      document.execCommand("copy"); sel.removeAllRanges(); div.remove();
+    }
+    flash(btn);
+  }
+  function flash(btn) {
+    toast("Copied");
+    if (!btn) return;
+    const old = btn.textContent;
+    btn.classList.add("done"); btn.textContent = "Copied";
+    setTimeout(() => { btn.classList.remove("done"); btn.textContent = old; }, 1200);
+  }
+
+  // ---------- field builders ----------
+  function textField({ label, value, required, hint, multiline, max, type = "text" }) {
+    const id = nid();
+    const input = multiline
+      ? `<textarea id="${id}">${esc(value)}</textarea>`
+      : `<input type="${type}" id="${id}" value="${esc(value)}">`;
+    const counter = max ? `<span class="counter" data-for="${id}" data-max="${max}"></span>` : "";
+    return `<div class="field">
+      <div class="head"><label class="name" for="${id}">${esc(label)}${required ? ' <span class="req">*</span>' : ""}</label>${counter}</div>
+      <div class="with-copy">${input}<button class="copy" data-copy="${id}">Copy</button></div>
+      ${hint ? `<div class="hint">${hint}</div>` : ""}
+    </div>`;
+  }
+  function checkField({ label, options, selected, required, hint, radio, name }) {
+    const grp = name || nid();
+    const boxes = options.map((o) => {
+      const on = selected.includes(o);
+      return `<label class="${on ? "on" : ""}"><input type="${radio ? "radio" : "checkbox"}" name="${grp}" value="${esc(o)}" ${on ? "checked" : ""}>${esc(o)}</label>`;
+    }).join("");
+    return `<div class="field">
+      <div class="head"><span class="name" style="font-weight:600;font-size:14px">${esc(label)}${required ? ' <span class="req">*</span>' : ""}</span><span class="hint">Tick these in Symplicity</span></div>
+      <div class="checks">${boxes}</div>
+      ${hint ? `<div class="hint">${hint}</div>` : ""}
+    </div>`;
+  }
+
+  function htmlToPlain(el) {
+    let out = "";
+    el.childNodes.forEach((n) => {
+      if (n.nodeType === 3) { out += n.textContent; return; }
+      const tag = n.tagName;
+      if (tag === "H3" || tag === "H4") out += "\n" + n.textContent.trim() + "\n";
+      else if (tag === "P") out += n.textContent.trim() + "\n\n";
+      else if (tag === "UL" || tag === "OL") { n.querySelectorAll("li").forEach((li) => (out += "- " + li.textContent.trim() + "\n")); out += "\n"; }
+      else out += n.textContent;
+    });
+    return out.replace(/\n{3,}/g, "\n\n").trim();
+  }
+
+  // ---------- render ----------
+  function render(r) {
+    const flags = r.flags.length ? `<div class="flags"><h2>Check before posting</h2><ul>${r.flags.map((f) => `<li>${esc(f)}</li>`).join("")}</ul></div>` : "";
+    const contactInfo = [
+      r.all_emails.length ? "Emails in the ad: " + r.all_emails.join(", ") : "",
+    ].filter(Boolean).join(" ");
+
+    const html = `
+      ${flags}
+      <div class="fixed"><b>Restrict Applications/Activate Screening:</b> leave on No. <b>Approved</b> (Administrative Only): set as usual.</div>
+
+      <section class="group card">
+        <h2>Position Type</h2>
+        ${checkField({ label: "Position Type", options: FORM.positionTypes, selected: r.position_types, required: true, hint: "Always CareerNext plus at least one other type." })}
+      </section>
+
+      <section class="group card">
+        <h2>Employer / Contact Information</h2>
+        ${textField({ label: "Employer", value: r.employer_name, required: true, hint: "Search for it in Symplicity. If it doesn't come up, add it via the Employer menu first." })}
+        <div class="field"><div class="head"><span class="name" style="font-weight:600;font-size:14px">Contact</span></div>
+          <div class="hint">Pick from the dropdown after choosing the employer. ${esc(contactInfo)}</div></div>
+      </section>
+
+      <section class="group card">
+        <h2>Job Details</h2>
+        ${textField({ label: "Job Title", value: r.job_title, required: true, max: FORM.titleMax })}
+        <div class="field">
+          <div class="head"><span class="name" style="font-weight:600;font-size:14px">Description <span class="req">*</span></span>
+            <span class="row"><button class="copy" id="copyDesc">Copy formatted</button><button class="copy" id="copyDescPlain">Copy as text</button></span></div>
+          <div class="desc" id="desc" contenteditable="true">${r.description_html || "<p></p>"}</div>
+          <div class="hint">Editable. "Copy formatted" keeps headings and bullets when pasted into the Symplicity editor.</div>
+        </div>
+        ${textField({ label: "Location", value: r.location, required: true, hint: 'Type it in Symplicity and pick from the suggestions. For a nationwide role, type just the country, e.g. "Austria".' + (r.location_mode ? " Mode: " + esc(r.location_mode) + "." : "") })}
+        ${textField({ label: "Posting Date", value: r.posting_date, required: true, hint: "YYYY-MM-DD. Defaults to today." })}
+        ${textField({ label: "Expiration Date", value: r.expiration_date, hint: "YYYY-MM-DD. Use the application deadline." })}
+      </section>
+
+      <section class="group card">
+        <h2>Application Instructions</h2>
+        ${checkField({ label: "Resume Submission Method", options: FORM.resumeMethods, selected: r.resume_submission_methods, required: true, hint: "External portal or link: Other, with the link in How to Apply. Email applications: Email." })}
+        ${checkField({ label: "Experience required", options: FORM.experience, selected: r.experience_required, hint: r.experience_quote ? 'From the ad: "' + esc(r.experience_quote) + '"' : "" })}
+        ${textField({ label: "How to Apply", value: r.how_to_apply, multiline: true, hint: 'URLs must be complete, starting with https://, for URL tracking to work.' })}
+        ${textField({ label: "Default email for resumes", value: r.resume_email, type: "email" })}
+        ${checkField({ label: "Automatic Application Packet Generation", options: ["Yes", "No"], selected: [r.resume_submission_methods.includes("Accumulate Online") ? "Yes" : "No"], required: true, radio: true, hint: "Yes emails the employer all application materials once the posting expires. Only relevant when CVs come in through Symplicity." })}
+        ${checkField({ label: "Optional Documents", options: FORM.documents, selected: r.optional_documents, hint: "Requested in addition to the CV." })}
+        ${checkField({ label: "Required Documents", options: FORM.documents, selected: r.required_documents })}
+        ${textField({ label: "Document Notes", value: r.document_notes, multiline: true })}
+      </section>
+
+      <section class="group card">
+        <h2>Qualifications</h2>
+        <div class="field">
+          <div class="head"><label class="name" for="skills">Desired Skills</label><span class="counter" id="skillCount"></span></div>
+          <textarea id="skills" style="min-height:110px">${esc(r.skills.join("\n"))}</textarea>
+          <div class="hint">One per line, up to 10. Click a chip to copy it, paste into Symplicity and press Enter. If left empty, Symplicity fills skills in with its own AI.</div>
+          <div class="chips" id="chips"></div>
+        </div>
+        ${checkField({ label: "Desired Work Authorization", options: FORM.workAuth, selected: r.work_authorization, hint: "No restriction in the ad means all three are ticked." })}
+        ${checkField({ label: "Desired Degree Level", options: FORM.degreeLevels, selected: r.degree_levels, hint: "Leave empty if the ad doesn't say. (Symplicity also lists duplicates such as \"Masters\" and \"Doctoral\". Use the ones above.)" })}
+        ${textField({ label: "Languages (not a Symplicity field yet)", value: r.languages, hint: "Already included in the description under Key details." })}
+      </section>
+    `;
+    $("#out").innerHTML = html;
+    wire();
+  }
+
+  function wire() {
+    const out = $("#out");
+    out.querySelectorAll("button[data-copy]").forEach((b) => {
+      b.addEventListener("click", () => copyText(document.getElementById(b.dataset.copy).value, b));
+    });
+    out.querySelectorAll(".counter[data-for]").forEach((c) => {
+      const inp = document.getElementById(c.dataset.for);
+      const upd = () => {
+        const n = inp.value.length, max = +c.dataset.max;
+        c.textContent = `${n}/${max}`;
+        c.classList.toggle("over", n > max);
+      };
+      inp.addEventListener("input", upd); upd();
+    });
+    out.querySelectorAll(".checks input").forEach((i) => {
+      i.addEventListener("change", () => {
+        out.querySelectorAll(`.checks input[name="${i.name}"]`).forEach((x) => x.parentElement.classList.toggle("on", x.checked));
+      });
+    });
+    const desc = $("#desc");
+    $("#copyDesc").addEventListener("click", (e) => copyRich(desc.innerHTML, htmlToPlain(desc), e.currentTarget));
+    $("#copyDescPlain").addEventListener("click", (e) => copyText(htmlToPlain(desc), e.currentTarget));
+
+    const skills = $("#skills"), chips = $("#chips"), count = $("#skillCount");
+    const updSkills = () => {
+      const list = skills.value.split("\n").map((s) => s.trim()).filter(Boolean);
+      count.textContent = `${list.length}/10`;
+      count.className = "counter" + (list.length > 10 ? " over" : "");
+      chips.innerHTML = list.map((s) => `<button class="chip" type="button">${esc(s)}</button>`).join("");
+      chips.querySelectorAll(".chip").forEach((c) => c.addEventListener("click", () => {
+        copyText(c.textContent);
+        c.classList.add("done");
+      }));
+    };
+    skills.addEventListener("input", updSkills); updSkills();
+  }
+
+  function today() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  }
+
+  function convert() {
+    const text = $("#jd").value;
+    if (text.trim().length < 40) { toast("Paste a full job description first"); return; }
+    try {
+      render(JDParser.parse(text, { today: today() }));
+      if (window.innerWidth <= 980) $("#out").scrollIntoView({ behavior: "smooth" });
+    } catch (e) {
+      console.error(e);
+      $("#out").innerHTML = `<div class="card">Something went wrong parsing this one: ${esc(e.message)}. Please send the JD to Tomi so the parser can be fixed.</div>`;
+    }
+  }
+
+  $("#go").addEventListener("click", convert);
+  $("#clear").addEventListener("click", () => { $("#jd").value = ""; $("#out").innerHTML = '<div id="empty" class="card">Results appear here, laid out in the same order as the Symplicity job form.</div>'; $("#jd").focus(); });
+  $("#example").addEventListener("click", () => { $("#jd").value = EXAMPLE; convert(); });
+  $("#jd").addEventListener("keydown", (e) => { if ((e.ctrlKey || e.metaKey) && e.key === "Enter") convert(); });
+})();
+</script>
+</body>
+</html>
